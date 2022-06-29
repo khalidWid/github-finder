@@ -6,9 +6,9 @@ function About() {
         A react app to search Github profiles and see profile details.
       </p>
       <p className="text-lg text-gray-400 ">
-        Layout By:
+        By:
         <a href="https://github.com/khalidWid" className="text-white ml-2">
-          khalidWid
+          khalid id-ouarab
         </a>
       </p>
     </div>
