@@ -1,4 +1,3 @@
-import PropTypes from "react";
 import { Link } from "react-router-dom";
 
 function UserItem({ user: { login, avatar_url } }) {
@@ -12,11 +11,8 @@ function UserItem({ user: { login, avatar_url } }) {
             </div>
           </div>
           <div>
-            <h2 className="card-title">{login}</h2>
-            <Link
-              className="text-base-content text-opacity-60"
-              to={`/users/${login}`}
-            >
+            <h2 className="card-title text-white">{login}</h2>
+            <Link className="text-base-content" to={`/users/${login}`}>
               Visit Profile
             </Link>
           </div>
@@ -25,10 +21,5 @@ function UserItem({ user: { login, avatar_url } }) {
     </div>
   );
 }
-/*
-UserItem.propTypes = {
-  user: PropTypes.object.isRequired,
-};
-*/
 
 export default UserItem;
