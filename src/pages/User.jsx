@@ -1,17 +1,25 @@
 import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import Spinner from "../components/layouts/Spinner";
 import { useEffect, useContext } from "react";
+import { useParams, Link } from "react-router-dom";
+import Spinner from "../components/layouts/Spinner";
+import RepoList from "../components/repos/RepoList";
 import GithubContext from "../context/github/GithubContext";
-import { useParams } from "react-router-dom";
+import { getUserAndRepos } from "../context/github/GithubActions";
 
 function User() {
-  const { getUser, user, loading } = useContext(GithubContext);
+  const { user, loading, repos, dispatch } = useContext(GithubContext);
 
   const params = useParams();
+
   useEffect(() => {
-    getUser(params.login);
-  }, []);
+    dispatch({ type: "SET_LOADING" });
+    const getUserData = async () => {
+      const userData = await getUserAndRepos(params.login);
+      dispatch({ type: "GET_USER_AND_REPOS", payload: userData });
+    };
+
+    getUserData();
+  }, [dispatch, params.login]);
 
   const {
     name,
@@ -34,6 +42,10 @@ function User() {
     return <Spinner />;
   }
 
+  // NOTE: check for valid url to users website
+
+  const websiteUrl = blog?.startsWith("http") ? blog : "https://" + blog;
+
   return (
     <>
       <div className="w-full mx-auto lg:w-10/12">
@@ -45,7 +57,7 @@ function User() {
 
         <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 mb-8 md:gap-8">
           <div className="custom-card-image mb-6 md:mb-0">
-            <div className="rounded-lg shadow-xl card image-full">
+            <div className="rounded-lg shadow-xl card">
               <figure>
                 <img src={avatar_url} alt="" />
               </figure>
@@ -89,8 +101,8 @@ function User() {
                 <div className="stat">
                   <div className="stat-title text-md">Website</div>
                   <div className="text-lg stat-value">
-                    <a href={html_url} target="_blank" rel="noreferrer">
-                      {html_url}
+                    <a href={websiteUrl} target="_blank" rel="noreferrer">
+                      {websiteUrl}
                     </a>
                   </div>
                 </div>
@@ -114,7 +126,7 @@ function User() {
         </div>
 
         <div className="w-full py-5 mb-6 rounded-lg shadow-md bg-base-100 stats">
-          <div className="grid grid-cols-1 md:grid-cols-4">
+          <div className="grid grid-cols-1 md:grid-cols-3">
             <div className="stat">
               <div className="stat-figure text-secondary">
                 <FaUsers className="text-3xl md:text-5xl" />
@@ -156,6 +168,8 @@ function User() {
             </div>
           </div>
         </div>
+
+        <RepoList repos={repos} />
       </div>
     </>
   );
