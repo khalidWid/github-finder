@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Github Finder App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+App to search Github users and display their info. this is a part of the course "React Front to Back" by: [bradtraversy](https://github.com/bradtraversy).
+
+you can view each profile's details and see their repositories.
+
+---
 
 ## Available Scripts
 
